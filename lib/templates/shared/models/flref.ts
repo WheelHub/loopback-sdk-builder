@@ -1,4 +1,5 @@
-import { merge, Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
+import { Observable} from 'rxjs/Rx';
 import { catchError } from 'rxjs/operators';
 import { LoopBackFilter, StatFilter } from './index';
 import { SocketConnection } from '../sockets/socket.connections';
