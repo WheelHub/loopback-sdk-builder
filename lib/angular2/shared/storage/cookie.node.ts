@@ -19,8 +19,9 @@ export class CookieNode {
    * The getter will return any type of data persisted in cookies.
    **/
   get(key: string) {
-    let cookies: { [key: string]: number } = Zone.current.get('req').cookies;
-    return cookies[key];
+      const request = Zone.current.get('req');
+      let cookies: { [key: string]: number } = request ? request.cookies : {};
+      return cookies[key];
   }
   /**
    * @method set
@@ -32,7 +33,8 @@ export class CookieNode {
    * The setter will return any type of data persisted in cookies.
    **/
   set(key: string, value: any): any {
-    Zone.current.get('res').cookies(key, value).send('Cookie is set');
+      const request = Zone.current.get('req');
+      if (request) request.cookies(key, value).send('Cookie is set');
   }
   /**
    * @method remove
@@ -42,6 +44,7 @@ export class CookieNode {
    * This method will remove a cookie from the client.
    **/
   remove(key: string, value: any): any {
-    Zone.current.get('res').cookies(key, '; expires=Thu, 01 Jan 1970 00:00:01 GMT;').send('Cookie is removed');
+      const response = Zone.current.get('res');
+      if (response) response.cookies(key, '; expires=Thu, 01 Jan 1970 00:00:01 GMT;').send('Cookie is removed');
   }
 }
